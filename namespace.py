@@ -3,4 +3,4 @@ def namespace(s):
     b={}
     for i in a:
         b={i:b}
-    print(b)
+    return b
