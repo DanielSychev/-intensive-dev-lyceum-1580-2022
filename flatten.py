@@ -1,12 +1,27 @@
+from collections import deque
+"""
+так как в дурацком питоне нет stack, то пришлось заменить его на deque(((
+как работает алгоритм:
+1)мы запихиваем в stack наш массив
+2)достаём элемент и сразу же очищаем от него наш stack
+3)если элемент массив:
+    идём с конца и пихаем в stack наши элементы. таким образом не верхушке окажется самый первый элемент, потом второй и т.д.
+    мы как бы говорим стеку, что нам нужно экстренно обработать наш массив, и другие элементы подождут, вот поэтому и нужен был стек, чтобы пихать вверх
+если элемент не массив:
+    спокойно добавляем его в ответ
+-------
+Конец:
+    на эту идею меня натолкнуло то, что любую рекурсию можно заменить стеком
+"""
 def flatten(cur_list):
     answer = []
-    for i in cur_list:
-        if(isinstance(i, list)):
-            for j in i:
-                if(isinstance(j, list)):
-                    answer = answer + flatten(j)
-                else:
-                    answer.append(j)
+    stack = deque()
+    stack.appendleft(cur_list)
+    while(len(stack)!=0):
+        elem = stack.popleft()
+        if(isinstance(elem, list)):
+            for i in range(len(elem)-1, -1, -1):
+                stack.appendleft(elem[i])
         else:
-            answer.append(i)
+            answer.append(elem)
     return answer
